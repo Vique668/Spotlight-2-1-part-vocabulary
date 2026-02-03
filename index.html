@@ -8,15 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- 
-      Using a specific version of Babel Standalone (7.20.0).
-      Newer versions (7.21+) have a bug with data-type="module" that causes 
-      the "targets['esmodules'] must be a boolean" error.
-    -->
+    <!-- Stable version of Babel Standalone -->
     <script src="https://unpkg.com/@babel/standalone@7.20.0/babel.min.js"></script>
     
     <script>
-      // Mock process for browser compatibility to prevent reference errors
+      // Mock process for browser compatibility
       window.process = { env: { API_KEY: "" } };
     </script>
 
@@ -51,12 +47,6 @@
 </head>
 <body>
     <div id="root"></div>
-    
-    <!-- 
-      1. type="text/babel" tells Babel to fetch the file as text (bypassing MIME errors).
-      2. data-type="module" tells Babel to treat the result as an ES module so 'import' works.
-      3. data-presets="typescript,react" enables support for TSX syntax.
-    -->
     <script 
       type="text/babel" 
       data-type="module" 

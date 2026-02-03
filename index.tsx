@@ -186,8 +186,8 @@ const Dashboard: React.FC<{ onStartStudy: (c: CategoryType) => void; onStartQuiz
           <h2 className="text-xl font-heading mb-6">{cat}</h2>
           
           <div className="flex w-full gap-3 mt-auto">
-            <button onClick={() => onStartStudy(cat)} className="flex-1 bg-white border-2 border-current py-3 rounded-2xl font-bold hover:bg-opacity-50 transition-all">📖 Study</button>
-            <button onClick={() => onStartQuiz(cat)} className="flex-1 bg-white border-2 border-current py-3 rounded-2xl font-bold hover:bg-opacity-50 transition-all">🎮 Play</button>
+            <button onClick={() => onStartStudy(cat)} className="flex-1 bg-white border-2 border-current py-3 rounded-2xl font-bold hover:bg-opacity-50 transition-all flex items-center justify-center gap-2">📖 Study</button>
+            <button onClick={() => onStartQuiz(cat)} className="flex-1 bg-white border-2 border-current py-3 rounded-2xl font-bold hover:bg-opacity-50 transition-all flex items-center justify-center gap-2">🎮 Play</button>
           </div>
         </div>
       ))}
@@ -208,7 +208,7 @@ const StudyMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onF
     if (isPlaying || isAudioLoading) return;
     setIsAudioLoading(true);
     try {
-      if (!audioContextRef.current) audioContextRef.current = new AudioContext({ sampleRate: 24000 });
+      if (!audioContextRef.current) audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
       const ctx = audioContextRef.current;
       if (ctx.state === 'suspended') await ctx.resume();
 
@@ -217,7 +217,7 @@ const StudyMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onF
         const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const response = await ai.models.generateContent({
           model: "gemini-2.5-flash-preview-tts",
-          contents: [{ parts: [{ text: `Say: ${currentItem.word}` }] }],
+          contents: [{ parts: [{ text: `Say clearly: ${currentItem.word}` }] }],
           config: {
             responseModalities: [Modality.AUDIO],
             speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } } },
@@ -244,9 +244,9 @@ const StudyMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onF
   };
 
   return (
-    <div className="max-w-xl mx-auto flex flex-col items-center px-4">
+    <div className="max-w-xl mx-auto flex flex-col items-center px-4 mb-20">
       <div className="mb-4 text-center">
-        <h2 className="text-2xl font-heading text-pink-600 mb-1">{category}</h2>
+        <h2 className="text-xl md:text-2xl font-heading text-pink-600 mb-1">{category}</h2>
         <div className="bg-pink-100 text-pink-800 px-4 py-1 rounded-full text-xs font-bold">{currentIndex + 1} / {items.length}</div>
       </div>
       <div className="w-full aspect-[4/5] relative cursor-pointer" style={{perspective: '1200px'}} onClick={() => setIsFlipped(!isFlipped)}>
@@ -254,19 +254,19 @@ const StudyMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onF
           <div className="absolute inset-0 bg-white border-8 border-pink-300 rounded-[3rem] shadow-2xl flex flex-col items-center p-8" style={{backfaceVisibility: 'hidden'}}>
              <button onClick={speak} className="self-end w-14 h-14 bg-pink-50 rounded-full flex items-center justify-center text-2xl shadow-md">{isAudioLoading ? '⌛' : '🔊'}</button>
              <div className="flex-1 flex flex-col items-center justify-center text-center">
-                <div className="text-9xl mb-4">{currentItem.icon || '❓'}</div>
-                <h1 className="text-5xl font-heading uppercase text-slate-800">{currentItem.word}</h1>
+                <div className="text-8xl md:text-9xl mb-4">{currentItem.icon || '❓'}</div>
+                <h1 className="text-4xl md:text-5xl font-heading uppercase text-slate-800">{currentItem.word}</h1>
              </div>
           </div>
           <div className="absolute inset-0 bg-pink-500 border-8 border-pink-200 rounded-[3rem] shadow-2xl flex flex-col items-center justify-center p-8 text-white" style={{backfaceVisibility: 'hidden', transform: 'rotateY(180deg)'}}>
              <div className="text-7xl mb-6">💡</div>
-             <h2 className="text-4xl font-heading text-center">{currentItem.translation}</h2>
+             <h2 className="text-3xl md:text-4xl font-heading text-center">{currentItem.translation}</h2>
           </div>
         </div>
       </div>
       <div className="flex w-full gap-5 mt-12">
-        <button onClick={() => { setCurrentIndex(Math.max(0, currentIndex - 1)); setIsFlipped(false); }} disabled={currentIndex === 0} className="bg-white border-4 border-pink-100 py-4 rounded-2xl flex-1 text-3xl shadow-md disabled:opacity-20">⬅️</button>
-        <button onClick={() => { if (currentIndex < items.length - 1) { setCurrentIndex(currentIndex + 1); setIsFlipped(false); } else { onFinish(); } }} className="bg-pink-500 text-white py-4 rounded-2xl flex-1 text-2xl font-heading shadow-xl">{currentIndex === items.length - 1 ? 'Finish 🏁' : 'Next ➡️'}</button>
+        <button onClick={() => { setCurrentIndex(Math.max(0, currentIndex - 1)); setIsFlipped(false); }} disabled={currentIndex === 0} className="bg-white border-4 border-pink-100 py-4 rounded-2xl flex-1 text-3xl shadow-md disabled:opacity-20 transition-all active:scale-95">⬅️</button>
+        <button onClick={() => { if (currentIndex < items.length - 1) { setCurrentIndex(currentIndex + 1); setIsFlipped(false); } else { onFinish(); } }} className="bg-pink-500 text-white py-4 rounded-2xl flex-1 text-xl md:text-2xl font-heading shadow-xl transition-all active:scale-95">{currentIndex === items.length - 1 ? 'Finish 🏁' : 'Next ➡️'}</button>
       </div>
     </div>
   );
@@ -308,7 +308,7 @@ const QuizMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onFi
       <h2 className="text-4xl font-heading text-pink-600 mb-6">Result! 🏆</h2>
       <div className="text-9xl mb-6">🎖️</div>
       <p className="text-6xl font-heading text-pink-500 mb-8">{score} / {questions.length}</p>
-      <button onClick={onFinish} className="w-full bg-pink-500 text-white font-heading text-2xl py-6 rounded-3xl shadow-xl">Back Home</button>
+      <button onClick={onFinish} className="w-full bg-pink-500 text-white font-heading text-2xl py-6 rounded-3xl shadow-xl transition-all active:scale-95">Back Home</button>
     </div>
   );
 
@@ -316,14 +316,14 @@ const QuizMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onFi
   if (!q) return <div className="text-center font-heading p-20 text-pink-500">Loading Quiz...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto px-4">
+    <div className="max-w-2xl mx-auto px-4 mb-20">
       <div className="flex justify-between items-center bg-white p-4 rounded-3xl shadow-sm mb-8 border-2 border-pink-50">
-        <h2 className="font-heading text-pink-600">{category}</h2>
-        <div className="bg-yellow-100 text-yellow-700 px-6 py-2 rounded-2xl font-heading text-2xl">⭐ {score}</div>
+        <h2 className="font-heading text-pink-600 text-sm md:text-base">{category}</h2>
+        <div className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-2xl font-heading text-xl md:text-2xl">⭐ {score}</div>
       </div>
-      <div className="bg-white border-8 border-pink-100 rounded-[3rem] p-12 text-center shadow-xl mb-8">
+      <div className="bg-white border-8 border-pink-100 rounded-[3rem] p-8 md:p-12 text-center shadow-xl mb-8">
         <p className="text-gray-400 font-bold mb-4 uppercase tracking-widest text-xs">Card {currentIndex + 1}</p>
-        <h3 className="text-6xl font-heading text-slate-900 uppercase">{q.correctItem.word}</h3>
+        <h3 className="text-4xl md:text-6xl font-heading text-slate-900 uppercase">{q.correctItem.word}</h3>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {q.options.map((opt) => {
@@ -334,7 +334,7 @@ const QuizMode: React.FC<{ category: CategoryType; items: VocabularyItem[]; onFi
             else color = 'bg-gray-50 border-gray-100 text-gray-300 opacity-40';
           }
           return (
-            <button key={opt} disabled={showResult} onClick={() => handleOption(opt)} className={`p-6 rounded-3xl border-4 text-xl font-bold transition-all ${color}`}>{opt}</button>
+            <button key={opt} disabled={showResult} onClick={() => handleOption(opt)} className={`p-6 rounded-3xl border-4 text-lg md:text-xl font-bold transition-all ${color} active:scale-95`}>{opt}</button>
           );
         })}
       </div>
@@ -351,8 +351,8 @@ const App: React.FC = () => {
     <div className="min-h-screen pb-20">
       <header className="bg-pink-500 text-white p-6 shadow-lg sticky top-0 z-50 rounded-b-3xl">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-3xl font-heading cursor-pointer" onClick={() => setMode('DASHBOARD')}>Spotlight 2</h1>
-          {mode !== 'DASHBOARD' && <button onClick={() => setMode('DASHBOARD')} className="bg-white text-pink-500 px-4 py-2 rounded-full font-bold">Back</button>}
+          <h1 className="text-2xl md:text-3xl font-heading cursor-pointer" onClick={() => setMode('DASHBOARD')}>Spotlight 2</h1>
+          {mode !== 'DASHBOARD' && <button onClick={() => setMode('DASHBOARD')} className="bg-white text-pink-500 px-4 py-2 rounded-full font-bold shadow-md hover:bg-pink-50 transition-colors">Back</button>}
         </div>
       </header>
       <main className="container mx-auto px-4 pt-8">
@@ -360,7 +360,7 @@ const App: React.FC = () => {
         {mode === 'STUDY' && selectedCategory && <StudyMode category={selectedCategory} items={filteredVocab} onFinish={() => setMode('DASHBOARD')} />}
         {mode === 'QUIZ' && selectedCategory && <QuizMode category={selectedCategory} items={filteredVocab} onFinish={() => setMode('DASHBOARD')} />}
       </main>
-      <footer className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 text-center text-pink-400 font-semibold border-t border-pink-100">Mastering English step by step! 🌟</footer>
+      <footer className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 text-center text-pink-400 font-semibold border-t border-pink-100 z-40">Mastering English step by step! 🌟</footer>
     </div>
   );
 };
