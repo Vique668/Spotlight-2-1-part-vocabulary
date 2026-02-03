@@ -45,7 +45,7 @@ const VOCABULARY: VocabularyItem[] = [
   { id: 'p16-11', word: 'kangaroo', translation: 'кенгуру', category: CategoryType.ALPHABET, icon: '🦘' },
   { id: 'p16-12', word: 'lamp', translation: 'лампа', category: CategoryType.ALPHABET, icon: '💡' },
   { id: 'p16-13', word: 'mouse', translation: 'мышь', category: CategoryType.ALPHABET, icon: '🐭' },
-  { id: 'p16-14', word: 'nest', translation: 'гнездо', category: CategoryType.ALPHABET, icon: '🪺' },
+  { id: 'p16-14', word: 'nest', translation: 'гнездо', category: CategoryType.ALPHABET, icon: '🐣' },
   { id: 'p16-15', word: 'orange', translation: 'апельсин', category: CategoryType.ALPHABET, icon: '🍊' },
   { id: 'p16-16', word: 'pin', translation: 'булавка', category: CategoryType.ALPHABET, icon: '📍' },
   { id: 'p16-17', word: 'queen', translation: 'королева', category: CategoryType.ALPHABET, icon: '👸' },
@@ -360,7 +360,7 @@ const App: React.FC = () => {
         {mode === 'STUDY' && selectedCategory && <StudyMode category={selectedCategory} items={filteredVocab} onFinish={() => setMode('DASHBOARD')} />}
         {mode === 'QUIZ' && selectedCategory && <QuizMode category={selectedCategory} items={filteredVocab} onFinish={() => setMode('DASHBOARD')} />}
       </main>
-      <footer className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 text-center text-pink-400 font-semibold border-t border-pink-100 z-40">Mastering English step by step! 🌟</footer>
+      <footer className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 text-center text-pink-400 font-semibold border-t border-pink-100 z-40">vk.com/proenglishkulagina 🌟</footer>
     </div>
   );
 };
