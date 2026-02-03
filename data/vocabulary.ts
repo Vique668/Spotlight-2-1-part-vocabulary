@@ -16,7 +16,7 @@ export const VOCABULARY: VocabularyItem[] = [
   { id: 'p16-11', word: 'kangaroo', translation: 'кенгуру', category: CategoryType.ALPHABET, icon: '🦘' },
   { id: 'p16-12', word: 'lamp', translation: 'лампа', category: CategoryType.ALPHABET, icon: '💡' },
   { id: 'p16-13', word: 'mouse', translation: 'мышь', category: CategoryType.ALPHABET, icon: '🐭' },
-  { id: 'p16-14', word: 'nest', translation: 'гнездо', category: CategoryType.ALPHABET, icon: '🪺' },
+  { id: 'p16-14', word: 'nest', translation: 'гнездо', category: CategoryType.ALPHABET, icon: '🐦‍⬛' },
   { id: 'p16-15', word: 'orange', translation: 'апельсин', category: CategoryType.ALPHABET, icon: '🍊' },
   { id: 'p16-16', word: 'pin', translation: 'булавка', category: CategoryType.ALPHABET, icon: '📍' },
   { id: 'p16-17', word: 'queen', translation: 'королева', category: CategoryType.ALPHABET, icon: '👸' },
