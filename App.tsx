@@ -79,7 +79,7 @@ const App: React.FC = () => {
 
       {/* Floating Footer Attribution */}
       <footer className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 text-center text-pink-400 font-semibold border-t border-pink-100">
-        Mastering English step by step! 🌟
+        vk.com/proenglishkulagina 🌟
       </footer>
     </div>
   );
