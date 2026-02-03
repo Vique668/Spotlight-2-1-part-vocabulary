@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { CategoryType, VocabularyItem } from '../types';
+import { CategoryType, VocabularyItem } from '../types.ts';
 import { GoogleGenAI, Modality } from "@google/genai";
 
 interface StudyModeProps {

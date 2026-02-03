@@ -1,10 +1,10 @@
 
 import React, { useState, useMemo } from 'react';
-import { AppMode, CategoryType, VocabularyItem } from './types';
-import { VOCABULARY } from './data/vocabulary';
-import Dashboard from './components/Dashboard';
-import StudyMode from './components/StudyMode';
-import QuizMode from './components/QuizMode';
+import { AppMode, CategoryType } from './types.ts';
+import { VOCABULARY } from './data/vocabulary.ts';
+import Dashboard from './components/Dashboard.tsx';
+import StudyMode from './components/StudyMode.tsx';
+import QuizMode from './components/QuizMode.tsx';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<AppMode>('DASHBOARD');

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { CategoryType } from '../types';
+import { CategoryType } from '../types.ts';
 
 interface DashboardProps {
   onStartStudy: (category: CategoryType) => void;

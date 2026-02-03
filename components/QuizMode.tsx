@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { CategoryType, VocabularyItem, QuizQuestion } from '../types';
+import { CategoryType, VocabularyItem, QuizQuestion } from '../types.ts';
 import { GoogleGenAI, Modality } from "@google/genai";
 
 interface QuizModeProps {
